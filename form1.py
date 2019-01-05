@@ -35,7 +35,7 @@ class BankDetails(ttk.Labelframe):
 		ttk.Label(self,text='Opening Balance*').grid(row=3,column=0,sticky=(tk.N+tk.E+tk.W+tk.S))
 		ttk.Entry(self,textvariable=self.variables['formFiveBankOpeningBal']).grid(row=3,column=1,sticky=(tk.N+tk.E+tk.W+tk.S))
 		ttk.Label(self,text='Deposit during the period*').grid(row=3,column=2,sticky=(tk.N+tk.E+tk.W+tk.S))
-		ttk.Entry(self,textvariable=self.variables['formFiveBankWithdrawals']).grid(row=3,column=3,sticky=(tk.N+tk.E+tk.W+tk.S))
+		ttk.Entry(self,textvariable=self.variables['formFiveBankDeposit']).grid(row=3,column=3,sticky=(tk.N+tk.E+tk.W+tk.S))
 		ttk.Label(self,text='Withdrawals during the period*').grid(row=4,column=0,sticky=(tk.N+tk.E+tk.W+tk.S))
 		ttk.Entry(self,textvariable=self.variables['formFiveBankWithdrawals']).grid(row=4,column=1,sticky=(tk.N+tk.E+tk.W+tk.S))
 		ttk.Label(self,text='Closing Balance*').grid(row=4,column=2,sticky=(tk.N+tk.E+tk.W+tk.S))
@@ -44,7 +44,7 @@ class BankDetails(ttk.Labelframe):
 		
 	def get(self):
 		data={}
-		for keys,variable self.variables.items():
+		for keys,variable in self.variables.items():
 			data[keys]=variable.get()
 		return data
 
@@ -78,8 +78,7 @@ class Application(tk.Tk):
 		ttk.Combobox(self.Question[2],textvariable=self.data['que3'],values=['Yes','No','Not Changed']).grid(row=2,column=1,sticky=tk.W)
 		
 		
-		ttk.Button(self.frame.interior,text="SAVE",command=self._on_save).grid(row=3)
-		
+		ttk.Button(self.frame.interior,text="SAVE",command=self._on_save).grid(row=3)	
 		
 	def AddBankDetails(self):
 		BankDetails(self.BankDetailsFrame).grid(sticky=tk.W)
@@ -89,6 +88,10 @@ class Application(tk.Tk):
 		data1={}
 		for keys,variable in self.data.items():
 			data1[keys]=variable.get()
+		que2_data=[]
+		for i in self.BankDetailsFrame.grid_slaves():
+			que2_data.append(i.get())
+		data1['que2']=que2_data
 		print(json.dumps(data1))
 
 		
