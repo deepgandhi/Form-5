@@ -47,6 +47,10 @@ class BankDetails(ttk.Labelframe):
 		for keys,variable in self.variables.items():
 			data[keys]=variable.get()
 		return data
+	
+	def set(self,data):
+		for keys,variable in self.variables.items():
+			variable.set(data[keys])
 
 
 
@@ -111,6 +115,10 @@ class Application(tk.Tk):
 		self.data['que3'].set(data['que3'])
 		for i in range(len(data['que2'])):
 			self.AddBankDetails()
+		j=0
+		for i in self.BankDetailsFrame.grid_slaves():
+			i.set(data['que2'][j])
+			j=j+1
 
 		
 app=Application()
