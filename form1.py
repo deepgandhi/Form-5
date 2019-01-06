@@ -78,7 +78,9 @@ class Application(tk.Tk):
 		ttk.Combobox(self.Question[2],textvariable=self.data['que3'],values=['Yes','No','Not Changed']).grid(row=2,column=1,sticky=tk.W)
 		
 		
-		ttk.Button(self.frame.interior,text="SAVE",command=self._on_save).grid(row=3)	
+		ttk.Button(self.frame.interior,text="Open",command=self._on_load).grid(row=3,column=0)
+		ttk.Button(self.frame.interior,text="Save",command=self._on_save).grid(row=3,column=1)
+		
 		
 	def AddBankDetails(self):
 		BankDetails(self.BankDetailsFrame).grid(sticky=tk.W)
@@ -99,6 +101,16 @@ class Application(tk.Tk):
 		file.write(json.dumps(data1))
 		file.close()
 		print(json.dumps(data1))
+		
+	def _on_load(self):
+		filename=filedialog.askopenfilename(initialdir='D:\programs\selenium python',title='Select File',filetypes=(('JSON file','*.json'),))
+		file=open(filename,'r')
+		data=json.loads(file.readline())
+		file.close()
+		self.data['que1'].set(data['que1'])
+		self.data['que3'].set(data['que3'])
+		for i in range(len(data['que2'])):
+			self.AddBankDetails()
 
 		
 app=Application()
