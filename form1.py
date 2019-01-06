@@ -92,7 +92,7 @@ class Application(tk.Tk):
 		for i in self.BankDetailsFrame.grid_slaves():
 			que2_data.append(i.get())
 		data1['que2']=que2_data
-		filename=filedialog.asksaveasfilename(initialdir='/',title='Select File',filetypes=(('JSON file','*.json'),))
+		filename=filedialog.asksaveasfilename(initialdir='D:\programs\selenium python',title='Select File',filetypes=(('JSON file','*.json'),))
 		if not filename.lower().endswith('.json'):
 			filename+='.json'
 		file=open(filename,'w')
