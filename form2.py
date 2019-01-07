@@ -13,6 +13,7 @@ class Application(tk.Tk):
 		self.frame.pack(fill='both',expand='true')
 		self.ques={}
 		self.ques['que1']=q.que1(self.frame.interior)
+		self.ques['que2']=q.que2(self.frame.interior)
 		self.ques['que3']=q.que3(self.frame.interior)
 		i=0
 		for keys,que in self.ques.items():
