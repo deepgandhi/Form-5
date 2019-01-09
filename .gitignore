@@ -7,3 +7,4 @@ z.py
 __pycache__
 json
 pending.txt
+chromedriver.exe
