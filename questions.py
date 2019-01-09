@@ -32,7 +32,7 @@ class que1(que):
 		q1_1e.grid(row=3,column=0,sticky=tk.W)
 		q1_1e.grid_remove()
 		q1_1l.grid_remove()
-		submenu.validator(q1,self.data['que1'],'Yes',q1_1e,q1_1l)
+		self.sub=submenu.validator(q1,self.data['que1'],'Yes',q1_1e,q1_1l)
 		
 	def get(self):
 		data={}
@@ -41,13 +41,11 @@ class que1(que):
 		return data
 	
 	def set(self,data):
-		for keys,variables in self.data.items():
-			try:
-				d=data[keys]
-			except KeyError:
-				d=''
-			variables.set(d)
-	
+		self.data['que1'].set(data['que1'])
+		self.sub._validate(self.data['que1'].get(),'focusout')
+		self.data['que1_1'].set(data['que1_1'])
+
+		
 	def upload(self,driver):
 		temp=driver.find_elements_by_id("question_1_ans")
 		if self.data['que1'].get()=='Yes':
