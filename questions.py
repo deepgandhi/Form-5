@@ -62,6 +62,7 @@ class que1(que):
 
 class BankDetails(ttk.Labelframe):
 	def __init__(self,parent,*args,**kwargs):
+		self.parent=parent
 		super().__init__(parent,text="Bank Details",*args,**kwargs)
 		self.variables={}
 		self.variables["formFiveBankId"]=tk.StringVar()
@@ -100,6 +101,8 @@ class BankDetails(ttk.Labelframe):
 		ttk.Entry(self,textvariable=self.variables['formFiveBankWithdrawals']).grid(row=5,column=1,sticky=(tk.N+tk.E+tk.W+tk.S))
 		ttk.Label(self,text='Closing Balance*').grid(row=5,column=2,sticky=(tk.N+tk.E+tk.W+tk.S))
 		ttk.Entry(self).grid(row=5,column=3,sticky=(tk.N+tk.E+tk.W+tk.S))
+		ttk.Button(self,text='Delete',command=self.delete).grid(row=6,column=0,sticky=tk.W)
+		
 		
 		
 	def get(self):
@@ -120,6 +123,10 @@ class BankDetails(ttk.Labelframe):
 			else:
 				temp[i].send_keys(variable.get())
 		
+	def delete(self):
+		self.grid_remove()
+		self.parent.banks.remove(self)
+	
 			
 class que2(que):
 	def __init__(self,parent,*args,**kwargs):
@@ -178,7 +185,33 @@ class que3(que):
 			temp[1].click()
 		else:
 			temp[2].click()
+
+class CertificateDetails(ttk.Labelframe):
+	def __init__(self,parent,*args,**kwargs):
+		super().__init__(parent,text='Certificate Details',*args,**kwargs)
+		self.variables={}
+		self.variables['formFiveNameOfCA']=tk.StringVar()
+		self.variables['formFiveNoOfCA']=tk.IntVar()
+		self.variables['formFiveDateofCACert']=tk.StringVar()
 		
+		ttk.Label(self,text='CA Name*').grid(row=0,column=0,sticky=tk.W)
+		ttk.Entry(self,textvariable=self.variables['formFiveNameOfCA']).grid(row=0,column=1,sticky=tk.W)
+		ttk.Label(self,text='CA Number*').grid(row=0,column=2,sticky=tk.W)
+		ttk.Entry(self,textvariable=self.variables['formFiveNoOfCA']).grid(row=0,column=3,sticky=tk.W)
+		ttk.Label(self,text='Date of Certificate *').grid(row=0,column=4,sticky=tk.W)
+		ttk.Entry(self,textvariable=self.variables['formFiveDateofCACert']).grid(row=0,column=5,sticky=tk.W)
+		
+	def get(self):
+		data={}
+		for keys,variable in self.variables.items():
+			data[keys]=variable.get()
+		return data
+	
+	def set(self,data):
+		for keys,variable in self.variables.items():
+			variable.set(data[keys])
+
+
 
 class que4(que):
 	def __init__(self,parent,*args,**kwargs):
@@ -186,6 +219,10 @@ class que4(que):
 		self.data=tk.StringVar()
 		ttk.Label(self,text='4.Whether any of the Form 3 issued during the certificate period mandated deposit of 100% of the money collected from the booking of the project units (refer point 5 of Additional Information for Ongoing Projects of Form 3)?').grid(row=0,column=0,sticky=tk.W)
 		ttk.Combobox(self,textvariable=self.data,values=["Yes","No"]).grid(row=1,column=0,sticky=tk.W)
+		self.subque1=ttk.Label(self,text='4.1.If Yes, please mention the certificate date and name of certifying Chartered Accountant')
+		self.subque1.grid(row=2,column=0,sticky=tk.W)
+		
+		
 		
 	def get(self):
 		return self.data.get()
