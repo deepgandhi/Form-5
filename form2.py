@@ -18,6 +18,7 @@ class Application(tk.Tk):
 		self.ques['que3']=q.que3(self.frame.interior)
 		self.ques['que4']=q.que4(self.frame.interior)
 		self.ques['que5']=q.que5(self.frame.interior)
+		self.ques['que6']=q.que6(self.frame.interior)
 		i=0
 		for keys,que in self.ques.items():
 			que.grid(row=i,column=0,sticky=tk.W)

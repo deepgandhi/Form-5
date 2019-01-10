@@ -323,3 +323,20 @@ class que5(que):
 		else:
 			temp[1].click()
 		
+		
+		
+		
+class que6(que):
+	def __init__(self,parent,*args,**kwargs):
+		super().__init__(parent,*args,**kwargs)
+		self.data={}
+		self.data['que6']=tk.StringVar()
+		self.data['que6_1']=tk.StringVar()
+		self.data['que6_2_1']=tk.IntVar()
+		self.data['que6_2_2']=tk.IntVar()
+		self.data['que6_2_3']=tk.IntVar()
+		
+		ttk.Label(self,text='6.Whether the project registration is as New or Ongoing project?').grid(row=0,column=0,sticky=tk.W)
+		q6=ttk.Combobox(self,textvariable=self.data['que6'],values=['New','Ongoing'])
+		q6.grid(row=1,column=0,sticky=tk.W)
+		
