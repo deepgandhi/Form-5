@@ -32,7 +32,7 @@ class que1(que):
 		q1_1e.grid(row=3,column=0,sticky=tk.W)
 		q1_1e.grid_remove()
 		q1_1l.grid_remove()
-		self.sub=submenu.validator(q1,self.data['que1'],'Yes',q1_1e,q1_1l)
+		self.sub=submenu.validator(q1,self.data['que1'],'Yes',[q1_1e,q1_1l])
 		
 	def get(self):
 		data={}

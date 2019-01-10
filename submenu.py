@@ -1,10 +1,9 @@
 class validator():
-	def __init__(self,entry,variable,value,sublabel,subentry):
+	def __init__(self,entry,variable,value,submenu):
 		vcmd=entry.register(self._validate)
 		invcmd=entry.register(self._invalid)
 		
-		self.subentry=subentry
-		self.sublabel=sublabel
+		self.submenu=submenu
 		self.variable=variable
 		self.value=value
 		
@@ -15,7 +14,7 @@ class validator():
 		if event=='focusout':
 			if proposed=='Yes' or 'No':
 				valid=True
-				self.submenu()
+				self._submenu()
 			else:
 				valid=False
 		return valid
@@ -23,11 +22,11 @@ class validator():
 	def _invalid(self):
 		self.variable.set('')
 	
-	def submenu(self):
+	def _submenu(self):
 		if self.variable.get()==self.value:
-			self.subentry.grid()
-			self.sublabel.grid()
+			for s in self.submenu:
+				s.grid()
 		else:
-			self.subentry.grid_remove()
-			self.sublabel.grid_remove()
-		
+			for s in self.submenu:
+				s.grid_remove()
+
