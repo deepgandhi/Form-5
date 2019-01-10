@@ -187,8 +187,9 @@ class que3(que):
 			temp[2].click()
 
 class CertificateDetails(ttk.Labelframe):
-	def __init__(self,parent,*args,**kwargs):
+	def __init__(self,parent,cert,*args,**kwargs):
 		super().__init__(parent,text='Certificate Details',*args,**kwargs)
+		self.parent=cert
 		self.variables={}
 		self.variables['formFiveNameOfCA']=tk.StringVar()
 		self.variables['formFiveNoOfCA']=tk.IntVar()
@@ -200,6 +201,11 @@ class CertificateDetails(ttk.Labelframe):
 		ttk.Entry(self,textvariable=self.variables['formFiveNoOfCA']).grid(row=0,column=3,sticky=tk.W)
 		ttk.Label(self,text='Date of Certificate *').grid(row=0,column=4,sticky=tk.W)
 		ttk.Entry(self,textvariable=self.variables['formFiveDateofCACert']).grid(row=0,column=5,sticky=tk.W)
+		ttk.Button(self,text='Delete',command=self.delete).grid(row=1,sticky=tk.W)
+		
+	def delete(self):
+		self.grid_remove()
+		self.parent.certificate.remove(self)
 		
 	def get(self):
 		data={}
@@ -216,13 +222,24 @@ class CertificateDetails(ttk.Labelframe):
 class que4(que):
 	def __init__(self,parent,*args,**kwargs):
 		super().__init__(parent,*args,**kwargs)
-		self.data=tk.StringVar()
+		self.data={}
+		self.data['que4']=tk.StringVar()
 		ttk.Label(self,text='4.Whether any of the Form 3 issued during the certificate period mandated deposit of 100% of the money collected from the booking of the project units (refer point 5 of Additional Information for Ongoing Projects of Form 3)?').grid(row=0,column=0,sticky=tk.W)
-		ttk.Combobox(self,textvariable=self.data,values=["Yes","No"]).grid(row=1,column=0,sticky=tk.W)
+		q4=ttk.Combobox(self,textvariable=self.data['que4'],values=["Yes","No"])
+		q4.grid(row=1,column=0,sticky=tk.W)
 		self.subque1=ttk.Label(self,text='4.1.If Yes, please mention the certificate date and name of certifying Chartered Accountant')
 		self.subque1.grid(row=2,column=0,sticky=tk.W)
+		self.subque2=ttk.Frame(self)
+		self.subque2.grid(row=3,column=0,sticky=tk.W)
+		self.subque1.grid_remove()
+		self.subque2.grid_remove()
+		self.sub=submenu.validator(q4,self.data['que4'],'Yes',[self.subque1,self.subque2])
+		ttk.Button(self.subque2,text='Add More',command=self.addmore).grid(sticky=tk.W)
+		self.certificate=[]		
 		
-		
+	def addmore(self):
+		self.certificate.append(CertificateDetails(self.subque2,self))
+		self.certificate[-1].grid()
 		
 	def get(self):
 		return self.data.get()
