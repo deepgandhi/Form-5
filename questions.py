@@ -255,13 +255,61 @@ class que4(que):
 			temp[1].click()
 
 
+class CertificateDetails5(ttk.Labelframe):
+	def __init__(self,parent,cert,*args,**kwargs):
+		super().__init__(parent,text='Certificate Details',*args,**kwargs)
+		self.parent=cert
+		self.variables={}
+		self.variables['question_5_1_period_from_date']=tk.StringVar()
+		self.variables['end_question_5_1_period_from_date']=tk.StringVar()
+		self.variables['question_5_1_AmtnotDeposited']=tk.IntVar()
+		
+		ttk.Label(self,text='Period From*').grid(row=0,column=0,sticky=tk.W)
+		ttk.Entry(self,textvariable=self.variables['question_5_1_period_from_date']).grid(row=0,column=1,sticky=tk.W)
+		ttk.Label(self,text='Period To*').grid(row=0,column=2,sticky=tk.W)
+		ttk.Entry(self,textvariable=self.variables['end_question_5_1_period_from_date']).grid(row=0,column=3,sticky=tk.W)
+		ttk.Label(self,text='Amount not deposited *').grid(row=0,column=4,sticky=tk.W)
+		ttk.Entry(self,textvariable=self.variables['question_5_1_AmtnotDeposited']).grid(row=0,column=5,sticky=tk.W)
+		ttk.Button(self,text='Delete',command=self.delete).grid(row=1,sticky=tk.W)
+		
+	def delete(self):
+		self.grid_remove()
+		self.parent.certificate.remove(self)
+		
+	def get(self):
+		data={}
+		for keys,variable in self.variables.items():
+			data[keys]=variable.get()
+		return data
+	
+	def set(self,data):
+		for keys,variable in self.variables.items():
+			variable.set(data[keys])
+
+
+
 class que5(que):
 	def __init__(self,parent,*args,**kwargs):
 		super().__init__(parent,*args,**kwargs)
-		self.data=tk.StringVar()
+		self.data={}
+		self.data['que5']=tk.StringVar()
 		ttk.Label(self,text='5.Whether the required proportion of money collected from the allottees of the project units (as indicated in Form 3) deposited in the RERA Bank Account?').grid(row=0,column=0,sticky=tk.W)
-		ttk.Combobox(self,textvariable=self.data,values=["Yes","No"]).grid(row=1,column=0,sticky=tk.W)
+		q5=ttk.Combobox(self,textvariable=self.data['que5'],values=["Yes","No"])
+		q5.grid(row=1,column=0,sticky=tk.W)
+		self.subque1=ttk.Label(self,text='5.1.If no, please mention the amount not deposited under the above non - compliance')
+		self.subque1.grid(row=2,column=0,sticky=tk.W)
+		self.subque2=ttk.Frame(self)
+		self.subque2.grid(row=3,column=0,sticky=tk.W)
+		self.subque1.grid_remove()
+		self.subque2.grid_remove()
+		self.sub=submenu.validator(q5,self.data['que5'],'No',[self.subque1,self.subque2])
+		ttk.Button(self.subque2,text='Add More',command=self.addmore).grid(sticky=tk.W)
+		self.certificate=[]		
 		
+	def addmore(self):
+		self.certificate.append(CertificateDetails5(self.subque2,self))
+		self.certificate[-1].grid()	
+	
 	def get(self):
 		return self.data.get()
 	
