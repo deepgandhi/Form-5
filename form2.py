@@ -5,10 +5,12 @@ import json
 import questions as q
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import os
 
 
 class Application(tk.Tk):
 	def __init__(self,*args,**kwargs):
+		self.cd=os.getcwd()
 		super().__init__(*args,**kwargs)
 		self.frame=y.VerticalScrolledFrame(self)
 		self.frame.pack(fill='both',expand='true')
@@ -32,7 +34,7 @@ class Application(tk.Tk):
 		data={}
 		for keys,frame in self.ques.items():
 			data[keys]=frame.get()
-		filename=filedialog.asksaveasfilename(initialdir='D:\programs\selenium python\json',title='Select File',filetypes=(('JSON file','*.json'),))
+		filename=filedialog.asksaveasfilename(initialdir=self.cd+'\json',title='Select File',filetypes=(('JSON file','*.json'),))
 		if not filename.lower().endswith('.json'):
 			filename+='.json'
 		file=open(filename,'w')
@@ -41,7 +43,7 @@ class Application(tk.Tk):
 		print(json.dumps(data))
 		
 	def set(self):
-		filename=filedialog.askopenfilename(initialdir='D:\programs\selenium python\json',title='Select File',filetypes=(('JSON file','*.json'),))
+		filename=filedialog.askopenfilename(initialdir=self.cd+'\json',title='Select File',filetypes=(('JSON file','*.json'),))
 		file=open(filename,'r')
 		data=json.loads(file.readline())
 		file.close()
@@ -55,7 +57,7 @@ class Application(tk.Tk):
 			
 	def upload(self):
 		driver=webdriver.Chrome()
-		driver.get("file:///C:/Users/Hp/Desktop/rera/Project%20Form-5(ANNUAL%20REFPORT%20ON%20STATEMENT%20OF%20ACCOUNTS).html")
+		driver.get(self.cd+"/rera/Project%20Form-5(ANNUAL%20REFPORT%20ON%20STATEMENT%20OF%20ACCOUNTS).html")
 		for keys,frame in self.ques.items():
 			frame.upload(driver)
 		
